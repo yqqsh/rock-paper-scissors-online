@@ -1,5 +1,6 @@
 import src.config as config
 
+import src.colors as colors
 import src.grid as grid
 
 import pygame
@@ -35,7 +36,7 @@ class Game:
     def draw(self) -> None:
         self.WIN.fill((30, 30, 30))
 
-        pygame.draw.rect(self.WIN, (0, 0, 0), (0, 0, config.WIDTH, config.UTIL_BAR_HEIGHT))
+        pygame.draw.rect(self.WIN, colors.black, pygame.Rect(0, 0, config.WIDTH, config.UTIL_BAR_HEIGHT))
 
         pygame.display.update()
 
