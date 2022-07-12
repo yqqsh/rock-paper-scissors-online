@@ -9,15 +9,15 @@ TILE_WIDTH: int = 64
 TILE_HEIGHT: int = 64
 TILE_SIZE: pygame.Vector2 = pygame.Vector2(TILE_WIDTH, TILE_HEIGHT)
 
-UTIL_BAR_HEIGHT: int = 200
+UTIL_BAR_HEIGHT: int = 100
 
-PADDING: pygame.Vector2 = pygame.Vector2(20, 20)
+PADDING: pygame.Vector2 = pygame.Vector2(30, 20)
 
 GRID_ROWS: int = 4
 GRID_COLS: int = 5
 
-WIDTH: int = (TILE_WIDTH + PADDING.x) * GRID_ROWS
-HEIGHT: int = UTIL_BAR_HEIGHT + (TILE_HEIGHT + PADDING.y) * GRID_COLS
+WIDTH: int = TILE_WIDTH * GRID_ROWS
+HEIGHT: int = UTIL_BAR_HEIGHT + TILE_HEIGHT * GRID_COLS
 SCREEN_SIZE: pygame.Vector2 = pygame.Vector2(WIDTH, HEIGHT)
 
 FPS: int = 60

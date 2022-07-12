@@ -24,6 +24,12 @@ class Game:
         # game objects
         self.grid: grid.Grid = grid.Grid()
 
+        self.grid._grid = [[4, 0, 0, 0],
+                           [0, 0, 0, 0],
+                           [2, 0, 0, 0],
+                           [3, 0, 0, 0],
+                           [0, 0, 0, 0]]
+
     def update(self) -> None:
         pass
 
@@ -37,6 +43,8 @@ class Game:
         self.WIN.fill((30, 30, 30))
 
         pygame.draw.rect(self.WIN, colors.black, pygame.Rect(0, 0, config.WIDTH, config.UTIL_BAR_HEIGHT))
+
+        self.grid.draw_to(self.WIN)
 
         pygame.display.update()
 
