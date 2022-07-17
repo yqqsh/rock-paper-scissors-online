@@ -35,9 +35,9 @@ import os
 class Blocks:
     BLOCK_NONE: int = 0
     BLOCK_1x1: int = 1
-    BLOCK_2x1: int = BLOCK_1x1 + 1
-    BLOCK_1x2: int = BLOCK_2x1 + 1
-    BLOCK_2x2: int = BLOCK_1x2 + 1
+    BLOCK_2x1: int = 2
+    BLOCK_1x2: int = 3
+    BLOCK_2x2: int = 4
 
     CODE: Dict[int, pygame.Surface] = {}
 
@@ -195,6 +195,18 @@ class Grid:
             self._grid[loc.row, loc.col] = Blocks.BLOCK_1x2
             return False
         elif cell == Blocks.BLOCK_2x2:
+            loc = self.locate_block(row, col, Blocks.BLOCK_2x2)
+            if loc is None or loc.col == cfg.GRID_COLS - 2:
+                return False
+
+            self._grid[loc.row, loc.col] = 0
+            if not self.if_block_at(loc.row, loc.col + 2) and not self.if_block_at(loc.row + 1, loc.col + 2):
+                self._grid[loc.row, loc.col + 1] = Blocks.BLOCK_2x2
+                return True
+
+            self._grid[loc.row, loc.col] = Blocks.BLOCK_2x2
+            return False
+        else:
             return False
 
     def move_left(self, row: int, col: int) -> bool:
@@ -238,6 +250,16 @@ class Grid:
             self._grid[loc.row, loc.col] = Blocks.BLOCK_1x2
             return False
         elif cell == Blocks.BLOCK_2x2:
+            loc = self.locate_block(row, col, Blocks.BLOCK_2x2)
+            if loc is None or loc.col == 0:
+                return False
+
+            self._grid[loc.row, loc.col] = 0
+            if not self.if_block_at(loc.row, loc.col - 1) and not self.if_block_at(loc.row + 1, loc.col - 1):
+                self._grid[loc.row, loc.col - 1] = Blocks.BLOCK_2x2
+                return True
+
+            self._grid[loc.row, loc.col] = Blocks.BLOCK_2x2
             return False
         else:
             return False
@@ -283,6 +305,16 @@ class Grid:
             self._grid[loc.row, loc.col] = Blocks.BLOCK_1x2
             return False
         elif cell == Blocks.BLOCK_2x2:
+            loc = self.locate_block(row, col, Blocks.BLOCK_2x2)
+            if loc is None or loc.row == cfg.GRID_ROWS - 2:
+                return False
+
+            self._grid[loc.row, loc.col] = 0
+            if not self.if_block_at(loc.row + 2, loc.col) and not self.if_block_at(loc.row + 2, loc.col + 1):
+                self._grid[loc.row + 1, loc.col] = Blocks.BLOCK_2x2
+                return True
+
+            self._grid[loc.row, loc.col] = Blocks.BLOCK_2x2
             return False
         else:
             return False
@@ -327,6 +359,16 @@ class Grid:
             self._grid[loc.row, loc.col] = Blocks.BLOCK_1x2
             return False
         elif cell == Blocks.BLOCK_2x2:
+            loc = self.locate_block(row, col, Blocks.BLOCK_2x2)
+            if loc is None or loc.row == 0:
+                return False
+
+            self._grid[loc.row, loc.col] = 0
+            if not self.if_block_at(loc.row - 1, loc.col) and not self.if_block_at(loc.row - 1, loc.col + 1):
+                self._grid[loc.row - 1, loc.col] = Blocks.BLOCK_2x2
+                return True
+
+            self._grid[loc.row, loc.col] = Blocks.BLOCK_2x2
             return False
         else:
             return False
