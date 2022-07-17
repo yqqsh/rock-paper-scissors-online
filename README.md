@@ -1,7 +1,9 @@
 # Shifty
 
 # TODO
-- [ ] complete the rest of the movement
+- [X] complete the rest of the movement
 - [ ] extensive testing of the movement
+- [ ] solution display
 - [ ] sfx and music
 - [ ] polished art
+
