@@ -80,18 +80,22 @@ class Grid:
 
         self._grid: np.ndarray = np.zeros(
             (cfg.GRID_ROWS, cfg.GRID_COLS),
-            dtype=np.int8,
+            dtype=np.uint8,
         )
-        self.print()
 
         self.grid_surface: pygame.Surface = utils.load_image(cfg.Paths.ASSETS / "playinggrid.png")
 
     def set(self, grid: Union[np.ndarray, List[List[int]]]) -> None:
         assert np.array(grid).shape == self._grid.shape, f"grid shape {np.array(grid).shape} != {self._grid.shape}"
-        self._grid = np.array(grid)
+        self._grid = np.array(grid, dtype=np.uint8)
+
+    def tobytes(self) -> bytes:
+        return self._grid.tobytes()
+
+    def get_grid(self) -> np.ndarray:
+        return np.array(self._grid, dtype=np.uint8)
 
     def print(self) -> None:
-        # print("[" + "\n ".join(str(row) for row in self._grid) + "]")
         print(self._grid)
 
     def at(self, row: int, col: int) -> int:

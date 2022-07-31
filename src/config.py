@@ -9,6 +9,10 @@ TILE_WIDTH: int = 64
 TILE_HEIGHT: int = 64
 TILE_SIZE: pygame.Vector2 = pygame.Vector2(TILE_WIDTH, TILE_HEIGHT)
 
+SOL_TILE_WIDTH: int = 12
+SOL_TILE_HEIGHT: int = 12
+SOL_TILE_SIZE: pygame.Vector2 = pygame.Vector2(SOL_TILE_WIDTH, SOL_TILE_HEIGHT)
+
 UTIL_BAR_HEIGHT: int = 100
 
 GRID_ROWS: int = 5

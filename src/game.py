@@ -5,6 +5,7 @@ import src.config as cfg
 import src.colors as colors
 import src.grid as grid
 import src.mouse as mouse
+import src.solution as solution
 
 import numpy as np
 
@@ -33,12 +34,16 @@ class Game:
         # game objects
         self.mouse: mouse.Mouse = mouse.Mouse()
         self.grid: grid.Grid = grid.Grid()
+        self.solution: solution.Solution = solution.Solution()
 
         self.grid.set([[4, 0, 0, 0],
                        [0, 0, 1, 0],
                        [2, 0, 0, 0],
                        [3, 3, 1, 1],
                        [0, 0, 0, 0]])
+
+        self.solution.random_gen()
+        self.solution._grid = self.grid._grid
 
     def update(self) -> None:
         pass
@@ -103,8 +108,11 @@ class Game:
 
     def draw(self) -> None:
         self.WIN.fill((30, 30, 30))
+        print(self.grid.tobytes())
 
-        pygame.draw.rect(self.WIN, colors.black, pygame.Rect(0, 0, cfg.WIDTH, cfg.UTIL_BAR_HEIGHT))
+        pygame.draw.rect(self.WIN, colors.grey9, pygame.Rect(0, 0, cfg.WIDTH, cfg.UTIL_BAR_HEIGHT))
+
+        self.solution.draw_to(self.WIN)
 
         self.grid.draw_to(self.WIN)
 
