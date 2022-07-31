@@ -30,19 +30,15 @@ class Blocks:
 
 class Solution:
     def __init__(self) -> None:
-        self._grid: np.ndarray = np.zeros(
-            (cfg.GRID_ROWS, cfg.GRID_COLS),
-            dtype=np.uint8,
-        )
+        self._grid: grid.Grid = grid.Grid()
         self.background: pygame.Surface = pygame.image.load(cfg.Paths.ASSETS / "solutiondisplay.png")
 
         Blocks.load()
 
     def random_gen(self) -> None:
-        for i in range(cfg.GRID_ROWS):
-            for j in range(cfg.GRID_COLS):
-                self._grid[i, j] = random.randint(0, 4)
-        # self._grid.fill(1)
+        for row in range(cfg.GRID_ROWS):
+            for col in range(cfg.GRID_COLS):
+                self._grid.set_at(row, col, random.randint(0, 4))
 
     def draw_to(self, surface: pygame.Surface) -> None:
         sol_x: int = 20
@@ -50,7 +46,7 @@ class Solution:
 
         surface.blit(self.background, (sol_x, sol_y))
 
-        for rowi, row in enumerate(self._grid):
+        for rowi, row in enumerate(self._grid.get_grid()):
             for coli, value in enumerate(row):
                 if value == 0:
                     continue

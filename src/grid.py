@@ -102,7 +102,19 @@ class Grid:
         return self._grid[row, col]
 
     def set_at(self, row: int, col: int, value: int) -> None:
-        self._grid[row, col] = value
+        if self.if_block_at(row, col):
+            return
+        if value == Blocks.BLOCK_1x1:
+            self._grid[row, col] = value
+        elif value == Blocks.BLOCK_2x1 and not self.if_block_at(row, col + 1):
+            self._grid[row, col] = value
+        elif value == Blocks.BLOCK_1x2 and not self.if_block_at(row + 1, col):
+            self._grid[row, col] = value
+        elif value == Blocks.BLOCK_2x2 and\
+                not self.if_block_at(row, col + 1) and\
+                not self.if_block_at(row + 1, col) and\
+                not self.if_block_at(row + 1, col + 1):
+            self._grid[row, col] = value
 
     def if_block_at(self, row: int, col: int) -> bool:
         return bool(self.block_at(row, col))
@@ -112,7 +124,7 @@ class Grid:
 
     def block_at(self, row: int, col: int) -> int:
         if not self.check_if_in_bounds(row, col):
-            return 0
+            return 1
         if self.at(row, col) == Blocks.BLOCK_1x1:
             return Blocks.BLOCK_1x1
         if (self.check_if_in_bounds(row, col - 1) and self.at(row, col - 1) == Blocks.BLOCK_2x1) or \

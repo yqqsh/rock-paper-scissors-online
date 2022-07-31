@@ -43,7 +43,7 @@ class Game:
                        [0, 0, 0, 0]])
 
         self.solution.random_gen()
-        self.solution._grid = self.grid._grid
+        # self.solution._grid = self.grid._grid
 
     def update(self) -> None:
         pass
@@ -108,12 +108,10 @@ class Game:
 
     def draw(self) -> None:
         self.WIN.fill((30, 30, 30))
-        print(self.grid.tobytes())
 
         pygame.draw.rect(self.WIN, colors.grey9, pygame.Rect(0, 0, cfg.WIDTH, cfg.UTIL_BAR_HEIGHT))
 
         self.solution.draw_to(self.WIN)
-
         self.grid.draw_to(self.WIN)
 
         pygame.display.update()

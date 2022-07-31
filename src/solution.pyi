@@ -1,5 +1,7 @@
 from typing import Dict
 
+import src.grid as grid
+
 import numpy as np
 
 import pygame
@@ -19,7 +21,7 @@ class Blocks:
 
 
 class Solution:
-    _grid: np.ndarray
+    _grid: grid.Grid
     background: pygame.Surface
 
     def __init__(self) -> None: ...
