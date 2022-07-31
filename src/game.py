@@ -79,8 +79,6 @@ class Game:
                 self.click_pos = pygame.Vector2(self.mouse.x, self.mouse.y)
                 self.grid_pos = grid.GridVector.from_mouse(self.mouse)
 
-                print(f"valid click! grid_pos={self.grid_pos} {cell=}")
-
         if self.mouse.just_released_left:
             if self.click_pos is not None:
                 self.click_pos = None
@@ -94,20 +92,16 @@ class Game:
                 return
 
             if self.grid_pos.col < new_grid_pos.col < cfg.GRID_COLS:
-                print("move_right")
                 if self.grid.move_right(self.true_block_pos.row, self.true_block_pos.col):
                     self.true_block_pos.col += 1
             elif -1 < new_grid_pos.col < self.grid_pos.col:
-                print("move_left")
                 if self.grid.move_left(self.true_block_pos.row, self.true_block_pos.col):
                     self.true_block_pos.col -= 1
 
             if self.grid_pos.row < new_grid_pos.row < cfg.GRID_ROWS:
-                print("move_down")
                 if self.grid.move_down(self.true_block_pos.row, self.true_block_pos.col):
                     self.true_block_pos.row += 1
             elif -1 < new_grid_pos.row < self.grid_pos.row:
-                print("move_up")
                 if self.grid.move_up(self.true_block_pos.row, self.true_block_pos.col):
                     self.true_block_pos.row -= 1
 

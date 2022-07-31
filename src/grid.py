@@ -98,6 +98,8 @@ class Grid:
         print(self._grid)
 
     def at(self, row: int, col: int) -> int:
+        if not self.check_if_in_bounds(row, col):
+            return 0
         return self._grid[row, col]
 
     def random_gen(self, counts: Dict[int, int]) -> None:
