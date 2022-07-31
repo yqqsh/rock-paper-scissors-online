@@ -36,14 +36,21 @@ class Game:
         self.grid: grid.Grid = grid.Grid()
         self.solution: solution.Solution = solution.Solution()
 
-        self.grid.set([[4, 0, 0, 0],
-                       [0, 0, 1, 0],
-                       [2, 0, 0, 0],
-                       [3, 3, 1, 1],
-                       [0, 0, 0, 0]])
+        # self.grid.set([[4, 0, 0, 0],
+        #                [0, 0, 1, 0],
+        #                [2, 0, 0, 0],
+        #                [3, 3, 1, 1],
+        #                [0, 0, 0, 0]])
 
-        self.solution.random_gen()
-        # self.solution._grid = self.grid._grid
+        counts = {
+            grid.Blocks.BLOCK_1x1: 3,
+            grid.Blocks.BLOCK_2x1: 2,
+            grid.Blocks.BLOCK_1x2: 2,
+            grid.Blocks.BLOCK_2x2: 1
+        }
+
+        self.solution.random_gen(counts)
+        self.grid.random_gen(counts)
 
     def update(self) -> None:
         pass

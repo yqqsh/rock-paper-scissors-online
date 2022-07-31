@@ -18,7 +18,7 @@ but this is not valid as it says there are four 2x2 blocks
  [0, 0, 1, 1]]
 """
 
-from typing import List, Dict, Tuple, Optional, Union
+from typing import List, Dict, Optional, Union
 
 import src.config as cfg
 import src.utils as utils
@@ -26,10 +26,9 @@ import src.mouse as mouse
 
 import numpy as np
 
+import random
+
 import pygame
-import math
-import sys
-import os
 
 
 class Blocks:
@@ -101,20 +100,56 @@ class Grid:
     def at(self, row: int, col: int) -> int:
         return self._grid[row, col]
 
-    def set_at(self, row: int, col: int, value: int) -> None:
+    def random_gen(self, counts: Dict[int, int]) -> None:
+        selection = []
+        for value, count in counts.items():
+            selection += [value] * count
+
+        selection_ = selection[:]
+
+        def get_random_choice() -> int:
+            if selection_:
+                choice = random.choice(selection_)
+                selection_.remove(choice)
+                return choice
+            return 0
+
+        def is_done() -> bool:
+            return not selection_
+
+        def put_back(value__: int) -> None:
+            selection_.append(value__)
+
+        while not is_done():
+            selection_ = selection[:]
+            self._grid.fill(0)
+            valid_places = [(row, col) for row in range(cfg.GRID_ROWS) for col in range(cfg.GRID_COLS)]
+            random.shuffle(valid_places)
+
+            for row, col in valid_places:
+                choice = get_random_choice()
+                if not self.set_at(row, col, choice) and choice:
+                    put_back(choice)
+
+    def set_at(self, row: int, col: int, value: int) -> bool:
         if self.if_block_at(row, col):
-            return
+            return False
         if value == Blocks.BLOCK_1x1:
             self._grid[row, col] = value
+            return True
         elif value == Blocks.BLOCK_2x1 and not self.if_block_at(row, col + 1):
             self._grid[row, col] = value
+            return True
         elif value == Blocks.BLOCK_1x2 and not self.if_block_at(row + 1, col):
             self._grid[row, col] = value
+            return True
         elif value == Blocks.BLOCK_2x2 and\
                 not self.if_block_at(row, col + 1) and\
                 not self.if_block_at(row + 1, col) and\
                 not self.if_block_at(row + 1, col + 1):
             self._grid[row, col] = value
+            return True
+        return False
 
     def if_block_at(self, row: int, col: int) -> bool:
         return bool(self.block_at(row, col))

@@ -35,10 +35,8 @@ class Solution:
 
         Blocks.load()
 
-    def random_gen(self) -> None:
-        for row in range(cfg.GRID_ROWS):
-            for col in range(cfg.GRID_COLS):
-                self._grid.set_at(row, col, random.randint(0, 4))
+    def random_gen(self, counts: Dict[int, int]) -> None:
+        self._grid.random_gen(counts)
 
     def draw_to(self, surface: pygame.Surface) -> None:
         sol_x: int = 20
