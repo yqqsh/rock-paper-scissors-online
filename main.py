@@ -5,6 +5,8 @@ import src.grid as grid
 
 
 def main():
+    pygame.init()
+
     game = Game(cfg.get_main_surface())
 
     grid.Blocks.load()

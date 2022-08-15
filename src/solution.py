@@ -55,3 +55,6 @@ class Solution:
 
     def draw(self) -> None:
         self.draw_to(cfg.get_main_surface())
+
+    def get_grid(self) -> np.ndarray:
+        return self._grid.get_grid()

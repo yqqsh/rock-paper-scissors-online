@@ -12,6 +12,7 @@ import numpy as np
 
 import random
 import pygame
+import time
 import math
 import sys
 import os
@@ -43,6 +44,8 @@ class Game:
 
         self.generate_grids()
 
+        self.start_time: float = time.time()
+
     def generate_grids(self) -> None:
 
         counts = self.gen_random_counts()
@@ -66,8 +69,26 @@ class Game:
             grid.Blocks.BLOCK_2x2: 1
         }
 
+    def reset(self) -> None:
+        self.generate_grids()
+        self.start_time = time.time()
+
+    def won(self) -> None:
+        font = cfg.get_font(None, 50)
+        text = font.render("You Won!", True, colors.black)
+        text_rect = text.get_rect()
+        text_rect.center = (self.W / 2, self.H / 2)
+
+        self.draw()
+        self.WIN.blit(text, text_rect)
+        pygame.display.update()
+        pygame.time.delay(3000)
+
+        self.reset()
+
     def update(self) -> None:
-        pass
+        if np.array_equal(self.grid.get_grid(), self.solution.get_grid()):
+            self.won()
 
     def event_handler(self) -> None:
         events = pygame.event.get()
@@ -93,7 +114,7 @@ class Game:
                 self.click_pos = pygame.Vector2(self.mouse.x, self.mouse.y)
                 self.grid_pos = grid.GridVector.from_mouse(self.mouse)
             elif self.reset_button.is_over(self.mouse.pos):
-                self.generate_grids()
+                self.reset()
 
         if self.mouse.just_released_left:
             if self.click_pos is not None:
@@ -129,6 +150,20 @@ class Game:
         pygame.draw.rect(self.WIN, colors.grey9, [0, 0, cfg.WIDTH, cfg.UTIL_BAR_HEIGHT])
 
         self.reset_button.draw_to(self.WIN, colors.red)
+
+        time_since_start_in_s = time.time() - self.start_time
+
+        minutes = int(time_since_start_in_s // 60)
+        seconds = int(time_since_start_in_s % 60)
+        time_font = cfg.get_font(None, 40)
+        time_text = time_font.render(f"{minutes}:{seconds}", True, colors.black)
+
+        time_text_rect = time_text.get_rect()
+        time_text_rect.centerx = cfg.WIDTH / 2
+        time_text_rect.y = 5
+
+        pygame.draw.rect(self.WIN, colors.orange, [cfg.WIDTH / 2 - 60 / 2, 5, 60, time_text_rect.height])
+        self.WIN.blit(time_text, time_text_rect)
 
         self.solution.draw_to(self.WIN)
         self.grid.draw_to(self.WIN)

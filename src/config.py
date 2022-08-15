@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, Tuple
 
 from pathlib import Path
 
@@ -53,13 +53,29 @@ def get_main_surface(flags: int=0) -> pygame.surface.Surface:
     return __MAIN_WIN
 
 
+__cached_fonts: Dict[Tuple[Optional[str], int], pygame.font.Font] = {}
+
+
+def get_font(path: Optional[str]=None, size: int=50) -> pygame.font.Font:
+    key = (path, size)
+    if key not in __cached_fonts:
+        __cached_fonts[key] = pygame.font.Font(path, size)
+
+    return __cached_fonts[key]
+
+
 __all__ = [
     "TILE_WIDTH",
     "TILE_HEIGHT",
+    "TILE_SIZE",
+    "SOL_TILE_WIDTH",
+    "SOL_TILE_HEIGHT",
+    "SOL_TILE_SIZE",
+    "RESET_WIDTH",
+    "RESET_HEIGHT",
+    "UTIL_BAR_HEIGHT",
     "GRID_ROWS",
     "GRID_COLS",
-    "TILE_SIZE",
-    "UTIL_BAR_HEIGHT",
     "PADDING",
     "WIDTH",
     "HEIGHT",
@@ -68,4 +84,5 @@ __all__ = [
     "TITLE",
     "Paths",
     "get_main_surface",
+    "get_font",
 ]
