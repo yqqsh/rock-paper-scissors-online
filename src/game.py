@@ -1,4 +1,4 @@
-from typing import List, Tuple, Union, Optional
+from typing import List, Tuple, Union, Optional, Dict
 
 import src.config as cfg
 
@@ -9,6 +9,7 @@ import src.solution as solution
 
 import numpy as np
 
+import random
 import pygame
 import math
 import sys
@@ -36,21 +37,26 @@ class Game:
         self.grid: grid.Grid = grid.Grid()
         self.solution: solution.Solution = solution.Solution()
 
-        # self.grid.set([[4, 0, 0, 0],
-        #                [0, 0, 1, 0],
-        #                [2, 0, 0, 0],
-        #                [3, 3, 1, 1],
-        #                [0, 0, 0, 0]])
-
-        counts = {
-            grid.Blocks.BLOCK_1x1: 3,
-            grid.Blocks.BLOCK_2x1: 2,
-            grid.Blocks.BLOCK_1x2: 2,
-            grid.Blocks.BLOCK_2x2: 1
-        }
+        counts = self.gen_random_counts()
 
         self.solution.random_gen(counts)
         self.grid.random_gen(counts)
+
+    @staticmethod
+    def gen_random_counts() -> Dict[int, int]:
+        total_blocks = 11
+        b_1x1 = random.randrange(3, 6)
+        total_blocks -= b_1x1
+        b_2x1 = int(random.randrange(0, int(total_blocks // 2)) // 2)
+        total_blocks -= b_2x1 * 2
+        b_1x2 = int(total_blocks // 2)
+
+        return {
+            grid.Blocks.BLOCK_1x1: b_1x1,
+            grid.Blocks.BLOCK_2x1: b_2x1,
+            grid.Blocks.BLOCK_1x2: b_1x2,
+            grid.Blocks.BLOCK_2x2: 1
+        }
 
     def update(self) -> None:
         pass

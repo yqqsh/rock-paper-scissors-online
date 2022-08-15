@@ -161,7 +161,7 @@ class Grid:
 
     def block_at(self, row: int, col: int) -> int:
         if not self.check_if_in_bounds(row, col):
-            return 1
+            return Blocks.BLOCK_2x2 * 2
         if self.at(row, col) == Blocks.BLOCK_1x1:
             return Blocks.BLOCK_1x1
         if (self.check_if_in_bounds(row, col - 1) and self.at(row, col - 1) == Blocks.BLOCK_2x1) or \
