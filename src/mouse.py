@@ -5,10 +5,9 @@ import src.config as cfg
 import pygame
 
 
-__instance: Optional["Mouse"] = None
-
-
 class Mouse:
+    __instance: Optional["Mouse"] = None
+
     def __init__(self) -> None:
         super().__init__()
         self.__x: int = 0
@@ -122,9 +121,16 @@ class Mouse:
         self.__prev_y = self.__y
         self.__x, self.__y = pygame.mouse.get_pos()
 
-    @staticmethod
-    def create():
-        global __instance
-        if __instance is None:
-            __instance = Mouse()
-        return __instance
+    @property
+    def pos(self) -> Tuple[int, int]:
+        return self.__x, self.__y
+
+    @property
+    def prev_pos(self) -> Tuple[int, int]:
+        return self.__prev_x, self.__prev_y
+
+    @classmethod
+    def create(cls):
+        if cls.__instance is None:
+            cls.__instance = Mouse()
+        return cls.__instance

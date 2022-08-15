@@ -13,6 +13,9 @@ SOL_TILE_WIDTH: int = 12
 SOL_TILE_HEIGHT: int = 12
 SOL_TILE_SIZE: pygame.Vector2 = pygame.Vector2(SOL_TILE_WIDTH, SOL_TILE_HEIGHT)
 
+RESET_WIDTH: int = 40
+RESET_HEIGHT: int = 40
+
 UTIL_BAR_HEIGHT: int = 100
 
 GRID_ROWS: int = 5

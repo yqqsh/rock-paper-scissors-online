@@ -3,6 +3,7 @@ from typing import List, Tuple, Union, Optional, Dict
 import src.config as cfg
 
 import src.colors as colors
+import src.button as button
 import src.grid as grid
 import src.mouse as mouse
 import src.solution as solution
@@ -32,10 +33,17 @@ class Game:
         self.grid_pos: Optional[grid.GridVector] = None
         self.true_block_pos: Optional[grid.GridVector] = None
 
+        # UI elements
+        self.reset_button: button.Button = button.Button(cfg.WIDTH - 30 - cfg.RESET_WIDTH, cfg.UTIL_BAR_HEIGHT / 2 - cfg.RESET_HEIGHT / 2, cfg.RESET_WIDTH, cfg.RESET_HEIGHT)
+
         # game objects
-        self.mouse: mouse.Mouse = mouse.Mouse()
+        self.mouse: mouse.Mouse = mouse.Mouse.create()
         self.grid: grid.Grid = grid.Grid()
         self.solution: solution.Solution = solution.Solution()
+
+        self.generate_grids()
+
+    def generate_grids(self) -> None:
 
         counts = self.gen_random_counts()
 
@@ -84,6 +92,8 @@ class Game:
 
                 self.click_pos = pygame.Vector2(self.mouse.x, self.mouse.y)
                 self.grid_pos = grid.GridVector.from_mouse(self.mouse)
+            elif self.reset_button.is_over(self.mouse.pos):
+                self.generate_grids()
 
         if self.mouse.just_released_left:
             if self.click_pos is not None:
@@ -116,7 +126,9 @@ class Game:
     def draw(self) -> None:
         self.WIN.fill((30, 30, 30))
 
-        pygame.draw.rect(self.WIN, colors.grey9, pygame.Rect(0, 0, cfg.WIDTH, cfg.UTIL_BAR_HEIGHT))
+        pygame.draw.rect(self.WIN, colors.grey9, [0, 0, cfg.WIDTH, cfg.UTIL_BAR_HEIGHT])
+
+        self.reset_button.draw_to(self.WIN, colors.red)
 
         self.solution.draw_to(self.WIN)
         self.grid.draw_to(self.WIN)
